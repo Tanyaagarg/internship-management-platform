@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusIntern - Interactive Internship Management Platform</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i data-lucide="layers"></i>
+                </div>
+                <h1>Nexus<span>Intern</span></h1>
+            </div>
+
+            <!-- Role Selector -->
+            <div class="role-selector-container">
+                <span class="role-label">Viewing workspace as:</span>
+                <div class="role-dropdown" id="roleDropdown">
+                    <button class="role-dropdown-btn" id="activeRoleBtn">
+                        <span class="role-indicator student-dot"></span>
+                        <span class="role-name">Student (Intern)</span>
+                        <i data-lucide="chevron-down" class="chevron"></i>
+                    </button>
+                    <div class="role-dropdown-content" id="roleOptions">
+                        <div class="role-option" data-role="student">
+                            <span class="role-indicator student-dot"></span>
+                            <div>
+                                <p class="option-title">Student (Intern)</p>
+                                <p class="option-desc">Track tasks & submit reports</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="mentor">
+                            <span class="role-indicator mentor-dot"></span>
+                            <div>
+                                <p class="option-title">Mentor (Supervisor)</p>
+                                <p class="option-desc">Assign tasks & review work</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="admin">
+                            <span class="role-indicator admin-dot"></span>
+                            <div>
+                                <p class="option-title">Administrator</p>
+                                <p class="option-desc">Match roles & view analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <div class="user-avatar" id="headerAvatar">A</div>
+                <div class="user-info">
+                    <h4 id="headerUserName">Ananya Sharma</h4>
+                    <p id="headerUserSub">Student Intern</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar & Main Layout -->
+        <div class="main-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav" id="sidebarNav">
+                    <!-- Nav items injected dynamically by app.js based on role -->
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="nav-item theme-toggle" id="themeToggleBtn">
+                        <i data-lucide="moon"></i>
+                        <span>Dark Theme</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="content-area" id="contentArea">
+                
+                <!-- STUDENT INTERFACE -->
+                <section id="student-section" class="role-section active">
+                    <div class="section-header" id="student-overview-target">
+                        <div>
+                            <h2 id="student-welcome-title">Welcome back, Ananya!</h2>
+                            <p>Here is your progress for the <strong id="student-track-title">Engineering Intern 2026</strong> program.</p>
+                        </div>
+                        <div class="status-badge active-badge">
+                            <span class="pulse-dot"></span> Active Internship
+                        </div>
+                    </div>
+
+                    <!-- Student Cards Grid -->
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Tasks Completed</span>
+                                <div class="stat-icon-wrapper student-theme"><i data-lucide="check-circle-2"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="student-tasks-val">4/6</h3>
+                            <div class="stat-progress">
+                                <div class="progress-bar-bg"><div class="progress-bar-fill student-theme" style="width: 66%;"></div></div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Program Progress</span>
+                                <div class="stat-icon-wrapper student-theme"><i data-lucide="calendar"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="student-days-val">66%</h3>
+                            <span class="stat-subtext" id="student-days-sub">Milestones matching goals</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Assigned Mentor</span>
+                                <div class="stat-icon-wrapper student-theme"><i data-lucide="users"></i></div>
+                            </div>
+                            <h3 class="stat-value" style="font-size: 1.25rem; margin-top: 0.5rem;" id="student-mentor-name">Amit Verma</h3>
+                            <span class="stat-subtext">Senior Dev, Cloud Eng</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Latest Appraisals</span>
+                                <div class="stat-icon-wrapper student-theme"><i data-lucide="award"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="student-grade-val">Excellent</h3>
+                            <span class="stat-subtext">Based on supervisor log approvals</span>
+                        </div>
+                    </div>
+
+                    <!-- Main Section Split -->
+                    <div class="two-column-layout">
+                        <!-- Kanban Column -->
+                        <div class="dashboard-card primary-column" id="student-tasks-card">
+                            <div class="card-header">
+                                <h3>Active Internship Tasks</h3>
+                                <p class="card-sub">Drag and drop cards or click buttons to move them. Supervisors must approve reviews.</p>
+                            </div>
+                            <div class="kanban-board">
+                                <div class="kanban-column" id="col-todo" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'todo')">
+                                    <div class="column-header">
+                                        <span>To Do</span>
+                                        <span class="column-count student-count">1</span>
+                                    </div>
+                                    <div class="kanban-cards-container" id="student-todo-list">
+                                        <!-- Injected dynamically -->
+                                    </div>
+                                </div>
+                                <div class="kanban-column" id="col-progress" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'progress')">
+                                    <div class="column-header">
+                                        <span>In Progress</span>
+                                        <span class="column-count student-count">1</span>
+                                    </div>
+                                    <div class="kanban-cards-container" id="student-progress-list">
+                                        <!-- Injected dynamically -->
+                                    </div>
+                                </div>
+                                <div class="kanban-column" id="col-review" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'review')">
+                                    <div class="column-header">
+                                        <span>In Review</span>
+                                        <span class="column-count student-count">0</span>
+                                    </div>
+                                    <div class="kanban-cards-container" id="student-review-list">
+                                        <!-- Injected dynamically -->
+                                    </div>
+                                </div>
+                                <div class="kanban-column" id="col-done" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'done')">
+                                    <div class="column-header">
+                                        <span>Completed</span>
+                                        <span class="column-count student-count">4</span>
+                                    </div>
+                                    <div class="kanban-cards-container" id="student-done-list">
+                                        <!-- Injected dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Side Column -->
+                        <div class="side-column">
+                            <!-- Program Progress -->
+                            <div class="dashboard-card" id="student-milestones-card">
+                                <div class="card-header">
+                                    <h3>Program Milestones</h3>
+                                </div>
+                                <div class="timeline" id="student-timeline-list">
+                                    <!-- Injected dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- Weekly Report Upload -->
+                            <div class="dashboard-card" id="student-reports-card">
+                                <div class="card-header">
+                                    <h3>Submit Weekly Log</h3>
+                                </div>
+                                <form id="submitReportForm" class="sidebar-form">
+                                    <div class="form-group">
+                                        <label for="reportWeek">Report Week</label>
+                                        <select id="reportWeek" required>
+                                            <option value="5">Week 5 (Current)</option>
+                                            <option value="6">Week 6</option>
+                                            <option value="7">Week 7</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reportWork">Summary of Work Done</label>
+                                        <textarea id="reportWork" rows="3" placeholder="Key deliverables, blockers, and learnings..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-student">
+                                        <i data-lucide="send"></i> Submit to Mentor
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MENTOR INTERFACE -->
+                <section id="mentor-section" class="role-section">
+                    <div class="section-header" id="mentor-overview-target">
+                        <div>
+                            <h2>Supervisor Dashboard</h2>
+                            <p>Manage your interns, assign milestones, and review completed deliverables.</p>
+                        </div>
+                        <div class="intern-active-list" id="mentor-intern-pillbox">
+                            <!-- Pills injected dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Mentor Cards Grid -->
+                    <div class="dashboard-grid mentor-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Intern Selected</span>
+                                <div class="stat-icon-wrapper mentor-theme"><i data-lucide="user"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="mentor-intern-name">Ananya Sharma</h3>
+                            <span class="stat-subtext" id="mentor-intern-details">Delhi Technological University • Engineering Intern</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Pending Reviews</span>
+                                <div class="stat-icon-wrapper mentor-theme"><i data-lucide="clock"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="mentor-pending-count">1</h3>
+                            <span class="stat-subtext">Requires validation or action</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Tasks Outstanding</span>
+                                <div class="stat-icon-wrapper mentor-theme"><i data-lucide="clipboard-list"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="mentor-outstanding-count">2</h3>
+                            <span class="stat-subtext">In todo / progress columns</span>
+                        </div>
+                    </div>
+
+                    <!-- Mentor Layout -->
+                    <div class="two-column-layout">
+                        <!-- Review queue -->
+                        <div class="dashboard-card primary-column" id="mentor-review-card">
+                            <div class="card-header">
+                                <h3>Submissions Awaiting Review</h3>
+                                <p class="card-sub">Evaluate task items and weekly journals submitted by your intern.</p>
+                            </div>
+                            <div class="review-list" id="mentor-review-queue">
+                                <!-- Injected dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Create Task -->
+                        <div class="side-column">
+                            <div class="dashboard-card" id="mentor-assign-card">
+                                <div class="card-header">
+                                    <h3>Assign New Task</h3>
+                                </div>
+                                <form id="createTaskForm" class="sidebar-form">
+                                    <div class="form-group">
+                                        <label for="taskTitle">Task Title</label>
+                                        <input type="text" id="taskTitle" placeholder="e.g., Integrate Auth APIs" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="taskDesc">Task Description</label>
+                                        <textarea id="taskDesc" rows="3" placeholder="Define deliverables and expectations..." required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="taskPriority">Priority</label>
+                                        <select id="taskPriority" required>
+                                            <option value="High">High</option>
+                                            <option value="Medium" selected>Medium</option>
+                                            <option value="Low">Low</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-mentor">
+                                        <i data-lucide="plus-circle"></i> Deploy Task
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Intern Details Sidebar -->
+                            <div class="dashboard-card" id="mentor-appraisals-card">
+                                <div class="card-header">
+                                    <h3>Quick Intern Appraisal</h3>
+                                </div>
+                                <div class="appraisal-stats">
+                                    <div class="appraisal-row">
+                                        <span>Attendance Rate</span>
+                                        <strong>100%</strong>
+                                    </div>
+                                    <div class="appraisal-row">
+                                        <span>Submission Quality</span>
+                                        <strong id="appraisal-quality">4.8/5.0</strong>
+                                    </div>
+                                    <div class="appraisal-row">
+                                        <span>Communication</span>
+                                        <strong>Very Professional</strong>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary btn-full" onclick="showFeedbackPrompt()">
+                                    <i data-lucide="message-square"></i> Send Direct Feedback
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ADMIN INTERFACE -->
+                <section id="admin-section" class="role-section">
+                    <div class="section-header" id="admin-overview-target">
+                        <div>
+                            <h2>Program Administrative Console</h2>
+                            <p>Global statistics, matching dashboards, and graduation certificate generation.</p>
+                        </div>
+                    </div>
+
+                    <!-- Admin Cards Grid -->
+                    <div class="dashboard-grid admin-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Active Cohort Size</span>
+                                <div class="stat-icon-wrapper admin-theme"><i data-lucide="graduation-cap"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="admin-cohort-size">24 Interns</h3>
+                            <span class="stat-subtext">Summer 2026 Batch</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Match Rate</span>
+                                <div class="stat-icon-wrapper admin-theme"><i data-lucide="link"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="admin-match-rate">91%</h3>
+                            <span class="stat-subtext" id="admin-match-subtitle">22 matched, 2 pending match</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Cohort Completion Rate</span>
+                                <div class="stat-icon-wrapper admin-theme"><i data-lucide="check-square"></i></div>
+                            </div>
+                            <h3 class="stat-value" id="admin-cohort-completion">53%</h3>
+                            <span class="stat-subtext">Overall tasks successfully approved</span>
+                        </div>
+                    </div>
+
+                    <!-- Admin Split layout -->
+                    <div class="two-column-layout">
+                        <!-- Matchmaking Hub -->
+                        <div class="dashboard-card primary-column" id="admin-matchmaking-card">
+                            <div class="card-header">
+                                <h3>Mentor-Intern Matchmaker</h3>
+                                <p class="card-sub">Match newly registered students with industry mentors based on technical track.</p>
+                            </div>
+                            <div class="matchmaker-container">
+                                <div class="match-columns">
+                                    <div class="match-list-col">
+                                        <h4>Unmatched Students</h4>
+                                        <div class="match-select-list" id="unmatched-students">
+                                            <!-- Injected dynamically -->
+                                        </div>
+                                    </div>
+                                    <div class="match-icon-middle">
+                                        <i data-lucide="shuffle"></i>
+                                    </div>
+                                    <div class="match-list-col">
+                                        <h4>Available Mentors</h4>
+                                        <div class="match-select-list" id="available-mentors">
+                                            <!-- Injected dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-admin btn-full" id="matchButton" onclick="triggerMatch()">
+                                    <i data-lucide="link-2"></i> Confirm Mentor-Intern Matching
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Completion and Certificates -->
+                        <div class="side-column">
+                            <div class="dashboard-card" id="admin-certificates-card">
+                                <div class="card-header">
+                                    <h3>Certification Portal</h3>
+                                    <p class="card-sub">Generate official certificates for interns who completed milestones.</p>
+                                </div>
+                                <div class="certificate-list" id="admin-certifications-list">
+                                    <!-- Injected dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- CERTIFICATE MODAL -->
+    <div class="modal-overlay" id="certModal">
+        <div class="modal-card glassmorphism cert-card-modal">
+            <div class="modal-close-btn" onclick="closeModal('certModal')">
+                <i data-lucide="x"></i>
+            </div>
+            <div class="certificate-wrapper" id="certificatePrintable">
+                <div class="cert-border">
+                    <div class="cert-body">
+                        <div class="cert-header">
+                            <div class="cert-logo">
+                                <i data-lucide="layers"></i>
+                                <span>NexusIntern</span>
+                            </div>
+                            <span class="cert-badge">OFFICIAL DOCUMENT</span>
+                        </div>
+                        
+                        <h2 class="cert-title">Certificate of Completion</h2>
+                        <p class="cert-subtext">This is proudly awarded to</p>
+                        
+                        <h1 class="cert-candidate" id="cert-student-name">Ananya Sharma</h1>
+                        
+                        <p class="cert-desc">
+                            for outstanding performance and successful completion of the intensive <br>
+                            <strong>Engineering Internship Program</strong> spanning 90 days of professional development.
+                        </p>
+
+                        <div class="cert-meta">
+                            <div class="meta-block">
+                                <p class="meta-label">Completion Date</p>
+                                <p class="meta-value">June 4, 2026</p>
+                            </div>
+                            <div class="meta-block signature">
+                                <div class="signature-line"></div>
+                                <p class="meta-label">Administrator Signoff</p>
+                                <p class="meta-value">NexusIntern Board</p>
+                            </div>
+                            <div class="meta-block signature">
+                                <div class="signature-line"></div>
+                                <p class="meta-label">Industry Mentor</p>
+                                <p class="meta-value" id="cert-mentor-name">Amit Verma</p>
+                            </div>
+                        </div>
+
+                        <div class="cert-id">
+                            <span>CERT-ID: NXS-2026-8802A</span>
+                            <span>Verify: nexusintern.org/verify</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('certModal')">Close Preview</button>
+                <button class="btn btn-student" onclick="downloadCertificate()">
+                    <i data-lucide="download"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL VIEW MODAL FOR REVIEW ITEMS -->
+    <div class="modal-overlay" id="reviewDetailModal">
+        <div class="modal-card glassmorphism">
+            <div class="modal-close-btn" onclick="closeModal('reviewDetailModal')">
+                <i data-lucide="x"></i>
+            </div>
+            <div class="card-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <span class="badge-review task-type" id="modal-review-type" style="margin-bottom: 0.5rem; display: inline-block;">TASK</span>
+                <h2 id="modal-review-title">Review Submission Title</h2>
+                <p class="card-sub" id="modal-review-subtitle">From Student: Aarav Patel</p>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">Submission Work Log:</h4>
+                <p id="modal-review-desc" style="line-height: 1.6; background: rgba(0,0,0,0.15); padding: 1.25rem; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--border-color);"></p>
+            </div>
+            <div class="modal-actions" id="modal-review-actions">
+                <!-- Approve / Reject buttons injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
